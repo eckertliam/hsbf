@@ -24,8 +24,12 @@ type ParseResult = Either ParseError Program
 
 type Program = [BFOp]
 
-parseProgram :: String -> ParseResult
-parseProgram input = parse [] [] 0 (filter isBFChar input)
+unwrapParseResult :: ParseResult -> Program
+unwrapParseResult (Right p) = p
+unwrapParseResult (Left e) = error (show e)
+
+parseProgram :: String -> Program
+parseProgram input = unwrapParseResult (parse [] [] 0 (filter isBFChar input))
   where
     isBFChar c = c `elem` "><+-.,[]"
 

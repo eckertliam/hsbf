@@ -15,10 +15,10 @@ data BfInst
 
 type Instructions = [BfInst]
 
-progToIr :: Program -> Either String Instructions
+progToIr :: Program -> Instructions
 progToIr prog = case toIr [] prog of
-    (inst, []) -> Right (reverse inst)
-    _ -> Left "Unmatched brackets in program"
+    (inst, []) -> reverse inst
+    _ -> error "Unmatched brackets in program"
   where
     toIr :: Instructions -> Program -> (Instructions, Program)
     toIr acc [] = (acc, [])
